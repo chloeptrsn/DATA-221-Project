@@ -16,6 +16,8 @@ from tensorflow.keras import layers, models
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, InputLayer
 
+
+from sklearn.metrics import root_mean_squared_error, r2_score
 california_house_prices = pd.read_csv('housing.csv', delimiter=',')
 
 #fill in the missing values (the missing values are usually present in total_bedrooms)
@@ -40,9 +42,9 @@ target_prices = california_house_prices["median_house_value"]
 features_train, features_test, labels_train, labels_test = train_test_split(feature_matrix, target_prices, test_size=0.3, random_state=42)
 
 # scale data:
-scaling = StandardScaler()
-features_train = scaling.fit_transform(features_train)
-features_test = scaling.transform(features_test)
+# scaling = StandardScaler()
+# features_train = scaling.fit_transform(features_train)
+# features_test = scaling.transform(features_test)
 
 # neural network code and then print results
 tf.random.set_seed(1)
@@ -75,6 +77,8 @@ train_mae = neural_network_model.evaluate(features_train, labels_train)
 print(f"Testing Mean Absolute Error: {test_mae}")
 print(f"Training Mean Absolute Error: {train_mae}")
 
-rmse = metrics.mean_squared_error(labels_test, predicted_labels)
-r2 = metrics.r2_score(labels_test, predicted_labels)
-print("rmse: ", rmse, "r2", r2)
+# root mean squared error
+rmse = root_mean_squared_error(labels_test, predicted_labels)
+r2 = r2_score(labels_test, predicted_labels)
+print(f"RMSE: {rmse}")
+print(f"R2 SCORE: {r2}")
