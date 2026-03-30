@@ -33,3 +33,8 @@ features_train, features_test, labels_train, labels_test = train_test_split(feat
 scaling = StandardScaler()
 features_train = scaling.fit_transform(features_train)
 features_test = scaling.transform(features_test)
+
+# various k-values
+k_values = [1, 3, 5, 7, 9, 15]
+
+results_list = []
