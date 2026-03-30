@@ -51,3 +51,9 @@ for k in k_values:
     r2 = r2_score(labels_test, predicted_values)
 
     results_list.append([k, mae, rmse, r2])
+
+# results table
+results_table = pd.DataFrame(results_list, columns = ["K Values", "MAE", "RMSE", "R2 Score"])
+results_table = results_table.sort_values(by = "RMSE")
+
+print(results_table)
