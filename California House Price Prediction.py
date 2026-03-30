@@ -29,3 +29,7 @@ target_values = california_house_prices["median_house_value"]
 # train test split 70/30
 features_train, features_test, labels_train, labels_test = train_test_split(features_matrix, target_values, test_size = 0.3, random_state = 42)
 
+# data scaling
+scaling = StandardScaler()
+features_train = scaling.fit_transform(features_train)
+features_test = scaling.transform(features_test)
