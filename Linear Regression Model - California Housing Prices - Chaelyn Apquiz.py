@@ -4,19 +4,17 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import root_mean_squared_error, mean_absolute_error, r2_score
 
+# loading csv file
 california_house_prices = pd.read_csv("housing.csv")
 
-#PRE-PROCESSING
-# find the median and fill in the missing values
+# PRE-PROCESSING
+# find the median and fill in the missing values which can be found in the total_bedrooms
 california_house_prices["total_bedrooms"] = (california_house_prices["total_bedrooms"].fillna(california_house_prices["total_bedrooms"].median()))
 
-#mappping
-ocean_mapping = {"<1H OCEAN": 0, "INLAND": 1,
-    "NEAR OCEAN": 2, "NEAR BAY": 3, "ISLAND": 4}
-
-california_house_prices["ocean_proximity"] = california_house_prices["ocean_proximity"].map(ocean_mapping)
+# converting categorical to numerical instead of mapping
+california_house_prices = pd.get_dummies(california_house_prices, columns=["ocean_proximity"])
 
 # converting categorical data which is the ocean_proximity column
 california_house_prices = pd.get_dummies(california_house_prices, columns=["ocean_proximity"])
@@ -31,7 +29,9 @@ features_train, features_test, prices_train, prices_test = train_test_split(feat
 # scaling the values
 scaled_values = StandardScaler()
 features_train_scaled = scaled_values.fit_transform(features_train)
-features_train_scaled = scaled_values.transform(features_test)
+features_test_scaled = scaled_values.transform(features_test)
 
-
+# Training Linear Regression Model
+model = LinearRegression()
+model.fit(features_train_scaled, target_prices)
 #git push -u origin main
