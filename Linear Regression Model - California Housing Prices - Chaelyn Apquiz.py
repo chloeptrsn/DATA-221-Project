@@ -29,4 +29,13 @@ linear_regression_model.fit(feature_train, target_train)
 
 # predictions
 predicted_values = linear_regression_model.predict(feature_test)
-#git push -u origin main
+
+# evaluation
+mae = mean_absolute_error(target_test, predicted_values)
+rmse = root_mean_squared_error(target_test, predicted_values)
+r2 = r2_score(target_test, predicted_values)
+
+print("LINEAR REGRESSION RESULTS!")
+print("Mean Absolute Error: ", round(mae, 2))
+print("Root Mean Squared Error: ", round(rmse, 2))
+print("R2 Score: ", round(r2, 4))
