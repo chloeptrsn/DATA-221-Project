@@ -14,16 +14,8 @@ california_house_prices = pd.read_csv('housing.csv', delimiter=',')
 #fill in the missing values (the missing values are usually present in total_bedrooms)
 california_house_prices["total_bedrooms"] = california_house_prices["total_bedrooms"].fillna(california_house_prices["total_bedrooms"].median())
 
-# mapping (converting categorical to numerical)
-mapping = {
-    "INLAND": 0,
-    "NEAR OCEAN": 1,
-    "NEAR BAY": 2,
-    "ISLAND": 3,
-    "<1H OCEAN": 4
-}
-
-california_house_prices["ocean_proximity"] = california_house_prices["ocean_proximity"].map(mapping)
+# converting categorical to numerical instead of mapping: one-hot encoding
+california_house_prices = pd.get_dummies(california_house_prices, columns=["ocean_proximity"])
 
 # creates feature matrix X of all columns except "median_house_value" and create label vector y as "median_house_value"
 feature_matrix = california_house_prices.drop("median_house_value", axis=1)
@@ -36,7 +28,7 @@ features_train, features_test, labels_train, labels_test = train_test_split(feat
 tf.random.set_seed(1)
 neural_network_model = Sequential()
 
-input_layer = InputLayer(input_shape=(9,))
+input_layer = InputLayer(input_shape=(13,))
 neural_network_model.add(input_layer)
 hidden_layer = Dense(3)
 neural_network_model.add(hidden_layer)
